@@ -1,0 +1,198 @@
+html, body {
+	margin: 0px;
+	background: #fff;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:0.95em;
+	color:#4d4948;
+}
+
+h1 {
+	font-size:150%;
+	margin:0px;
+	padding:0px;
+	margin-bottom:5px;
+}
+
+a {
+	color:#4d4948;
+}
+
+.clear {
+	clear:both;
+}
+
+#wrapper {
+	margin:50px auto 0 auto;
+	background:url('layout/wrapper-bg.png') no-repeat;
+	width:765px;
+	height:356px;
+}
+
+#wrapper #content {
+	padding:45px 30px 0 30px;
+}
+
+#wrapper #content #left-nav {
+	float:left;
+	font-size:95%;
+}
+
+#wrapper #content #left-nav ul {
+	padding:0 0 50px 0;
+	margin:0;
+}
+
+#wrapper #content #left-nav ul li {
+	padding:0;
+	margin:0;
+	list-style:none;
+}
+
+#wrapper #content #left-nav ul li a {
+	text-decoration:none;
+}
+
+#wrapper #content #left-nav ul li a:hover {
+	color:#ff0505;
+	text-decoration:underline;
+}
+
+#wrapper #content #left-nav #build a {
+	background:url('layout/mirex_logo.png');
+	width:135px;
+	height:135px;
+	display:block;
+	margin-bottom: 10px;
+}
+
+#wrapper #content #left-nav #build a span {
+	display:none;
+}
+
+#wrapper #content #main {
+	float:right;
+	width:500px;
+	font-size:90%;
+	padding-bottom:100px;
+}
+
+#wrapper #content #main #regbox {
+	padding: 15px 0 0 0;
+}
+
+label {
+	width:130px;
+	float:left;
+}
+
+#errors {
+	margin-top:15px;
+	color:#4d4948;
+	background-color:#fffebe;
+	border: 1px solid #cbcbcb;
+	font-size:90%;
+	padding:10px;
+}
+
+.alert {
+	color:#4d4948;
+	background-color:#fffebe;
+	border: 1px solid #cbcbcb;
+	font-size:90%;
+	padding:10px;
+}
+
+
+#success {
+	margin-top:15px;
+	color:#4d4948;
+	background-color:#bce9b5;
+	border: 1px solid #7ace6c;
+	padding:10px;
+}
+
+#gravatar {
+	text-align:center;
+}
+
+#gravatar img {
+	margin: auto;
+}
+
+.id .id-date {
+	float: left;
+	margin-right: 10px;
+	width: 135px;
+}
+
+.id .id-info {
+	float:left;
+}
+
+.id-details {
+	font-size:0.8em;
+	margin:0px;
+}
+
+.sub {
+	margin-bottom:10px;
+}
+
+.sub .clear {
+	height:25px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.sub .sub-shortcode {
+	float: left;
+	width: 95px;
+	margin-right:5px;
+}
+
+.sub .sub-info {
+	float:left;
+	width: 380px;
+	margin-left:5px;
+}
+
+#search-results {
+	width: 325px;
+	display:none;
+}
+
+#search-results .profile {
+	border: 1px solid yellow;
+	background-color:#fffebe;
+	border: 1px solid #cbcbcb;
+	margin: 3px;
+	padding:5px;
+}
+
+#contrib-search {
+	width:325px;
+}
+
+#contrib-search div {
+	cursor:move;
+}
+
+#contributors {
+	padding: 2px;
+	margin: 0px;
+	zoom: 1;
+	width: 325px;
+}
+
+#contributors ul {
+	margin: 0px;
+	height: 125px;
+	float: left;
+	padding: 0;
+	zoom: 1;
+}
+#contributors ul li {
+	list-style-type: none;
+	cursor: move;
+	zoom: 1;
+}

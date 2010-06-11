@@ -1,0 +1,5 @@
+Hello #USERNAME#
+
+Thank you for registering for #WEBSITENAME#
+#ACTIVATION-MESSAGE
+#INC-FOOTER#
