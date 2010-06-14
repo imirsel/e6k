@@ -116,7 +116,7 @@ function countAvailableAssignments($task)
 	return $row['num'];
 }
 
-function userGiveInformedConsent($user)
+function userGiveConsent($user)
 {
 	global $db,$db_table_prefix;
 	if ($user != NULL)
@@ -127,16 +127,17 @@ function userGiveInformedConsent($user)
 		$sql = "INSERT IGNORE INTO
 					".$db_table_prefix."E6K_Consent
 				SET
-					consent_Username=".$db->sql_escape($user->clean_username)."',
+					consent_Username='".$db->sql_escape($user->clean_username)."',
 					consent_Status='Y',
 					consent_Date = NOW(),
 					consent_IP = '".$db->sql_escape($ip)."',
 					consent_UserAgent = '".$db->sql_escape($ua)."'";
+
 		$db->sql_query($sql);
 	}
 }
 
-function userGaveConsent($user)
+function userHasGivenConsent($user)
 {
 	global $db,$db_table_prefix;
 	if ($user != NULL)
@@ -146,12 +147,15 @@ function userGaveConsent($user)
 				FROM
 					".$db_table_prefix."E6K_Consent
 				WHERE
-					consent_Username=".$db->sql_escape($user->clean_username)."'
+					consent_Username='".$db->sql_escape($user->clean_username)."'
 				AND
 					consent_Status='Y'";
 
-		$db->sql_query($sql);
+		$result = $db->sql_query($sql);
+		$row = $db->sql_fetchrow($result);
+		return $row;
 	}
+	return false;
 }
 
 function userGetCandidates($user, $task, $query) 
@@ -398,9 +402,9 @@ function adminLoadResults($user, $task, $data, $append)
 
 		foreach ($data as $row) 
 		{
-			list($s, $q, $c) = preg_split("/[,\t]/", $row);
-			if (($s != '') && ($q != '') && ($c != '')) {
-				$queries[$q] = 1;
+			list($s, $q, $g, $c) = preg_split("/[,\t]/", $row);
+			if (($s != '') && ($q != '') && ($c != '') && ($g != '')) {
+				$queries[$q] = $g;
 
 				$clauses[] = "( '".$db->sql_escape($task)."', 	
 								'".$db->sql_escape(trim($s))."',
@@ -416,17 +420,19 @@ function adminLoadResults($user, $task, $data, $append)
 					".$db_table_prefix."E6K_Assignments 
 					(
 						assign_Task, 
-						assign_Query
+						assign_Query,
+						assign_Genre
 					)
 				VALUES 
 				";
 
 		// Create Assignments
 		$clauses = array();
-		foreach ($queries as $q=>$v) 
+		foreach ($queries as $q=>$g) 
 		{
 			$clauses[] = "( '".$db->sql_escape($task)."', 	
-							'".$db->sql_escape($q)."')";
+							'".$db->sql_escape($q)."',
+							'".$db->sql_escape($g)."')";
 		}
 
 		$db->sql_query($sql . join(",", $clauses));
@@ -441,11 +447,15 @@ function adminGetAllAssignments($user, $task)
 	if (($user != NULL) && ($user->isGroupMember(2)))
 	{
 		$sql = "SELECT 
-					*
+					*,
+					assign_Grader IS NULL AS sort
 				FROM
 					".$db_table_prefix."E6K_Assignments
 				WHERE
-					assign_Task = '".$db->sql_escape($task)."'";
+					assign_Task = '".$db->sql_escape($task)."'
+				ORDER BY
+					sort ASC,
+					assign_Query ASC";
 
 		$result = $db->sql_query($sql);
 		while (($row = $db->sql_fetchrow($result)) != null) {
@@ -453,6 +463,46 @@ function adminGetAllAssignments($user, $task)
 		}
 	}
 	return $assignments;
+}
+
+function adminGenerateReport($user, $task)
+{
+	global $db,$db_table_prefix;
+	$report = array();
+
+	//check if user is mirex organizer
+	if (($user != NULL) && ($user->isGroupMember(2)))
+	{
+		$sql = "SELECT 
+					r.result_Submission as SubID,
+					r.result_Query as QueryID,
+					a.assign_Genre as QueryGenre,
+					AVG(IF(r.result_Broad = 'VS',2,IF(r.result_Broad = 'SS',1,0))) AS AvgBroad,
+					AVG(r.result_Fine) AS FineAvg
+				FROM
+					".$db_table_prefix."E6K_Assignments a,
+					".$db_table_prefix."E6K_Results r					
+				WHERE
+					r.result_Task = '".$db->sql_escape($task)."'
+				AND
+					a.assign_Task = r.result_Task
+				AND
+					a.assign_Query = r.result_Query
+				GROUP BY
+					r.result_Submission, 
+					r.result_Task, 
+					r.result_Query
+				ORDER BY
+					r.result_Submission,
+					a.assign_Genre,
+					r.result_Query";
+
+		$result = $db->sql_query($sql);
+		while (($row = $db->sql_fetchrow($result)) != null) {
+			$report[] = $row;
+		}
+	}
+	return $report;
 }
 
 if (!function_exists('json_encode'))

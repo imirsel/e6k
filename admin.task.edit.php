@@ -105,7 +105,8 @@
 											?><span><?php echo $n;?> results loaded</span><?php
 										}
 										?>
-										<a href="admin.results.load.php?task=<?php echo $tid?>">Load/Append Results</a><?php
+										<input type="button" onclick="window.location.href='admin.results.load.php?task=<?php echo $tid?>'" value="Load Data" />
+										<input type="button" onclick="window.location.href='admin.report.download.php?task=<?php echo $tid?>'" value="Generate Report"/><?php
 									?>
 								</div>
 								<input type="submit" name="submit" value="Edit Task"/>

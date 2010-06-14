@@ -68,7 +68,7 @@
 				<form action="admin.results.load.php" method="post">
 					<input type="hidden" name="task_ID" value="<?php echo $tid;?>"/>
 					<div style="margin-bottom:10px;">
-						<p>Paste CSV triples: Submission ID,Query ID,Candidate ID</p>
+						<p>Paste CSV 4-Tuples: Submission ID,Query ID,Query Genre,Candidate ID</p>
 						<textarea name="data" style="width:375px;height:400px;"></textarea>
 					</div>
 					<div>
