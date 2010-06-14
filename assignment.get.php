@@ -8,8 +8,9 @@
 	require_once("models/config.php");
 	
 	//Prevent the user visiting the logged in page if he/she is not logged in
-	if(!isUserLoggedIn()) { header("Location: login.php"); die(); }
-	
+	if (!isUserLoggedIn()) { header("Location: login.php"); die(); }
+	if (!userHasGivenConsent($loggedInUser)) { header("Location: consent.php"); die(); }
+
 	if ((!empty($_POST)) && (isset($_POST['task'])))
 	{
 		$tid = $_POST['task'];
