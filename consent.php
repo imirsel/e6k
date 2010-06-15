@@ -46,17 +46,22 @@
 			(isset($consent['consent_UserAgent'])))
 		{
 			?>
-				<p>You have already signed the informed consent form. You signed it on
+			<div id="success">
+				<p>You have consented to participate in this study. You gave your informed consent on
 				<strong><?php echo $consent['consent_Date'];?></strong> from a computer connected to the
-				internet from IP address <strong><?php echo $consent['consent_IP'];?></strong> using a browser
-				reporting to be <strong><?php echo $consent['consent_UserAgent'];?></strong>.</p>
+				internet from IP address <em><?php echo $consent['consent_IP'];?></em> using a browser
+				reporting to be <em><?php echo $consent['consent_UserAgent'];?></em>.</p>
+
 				<p>If this
 				information seems incorrect or suspicious to you, please contact the IMIRSEL
 				team at <a href="mailto:mirex@imirsel.org">mirex@imirsel.org</a>.</p>
+				
+				<p>Now that you have consented to participating in this study you can start rating 
+				queries. <strong>Go to <a href="assignment.list.php">My Assignments</a> to start grading.</a></strong>
+				</p>
+			</div>
 			<?php
 		}
-		else
-		{
 			?>
 			<h2>Music Similarity Grading System</2>
 			<h3>Investigators:</h3>
@@ -104,9 +109,6 @@
 				</p>
 				<input type="submit" value="Consent"/>			
 			</form>			
-			<?php
-		}
-		?>
 		</div>  
 	</div>
 </div>

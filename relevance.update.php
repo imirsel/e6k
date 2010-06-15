@@ -5,6 +5,7 @@
 	if (isset($_GET['t']) &&
 		isset($_GET['q']) && 
 		isset($_GET['c']) &&
+		isset($_GET['callback']) &&
 		(isset($_GET['b']) || isset($_GET['f'])))
 	{
 		$t = $_GET['t'];
@@ -26,7 +27,7 @@
 		
 		if (count($scores) > 0) {		
 			updateRelevance($loggedInUser, $t, $q, $c, $scores);
-			echo "updated";
+			echo $_GET['callback'], "('", $c, "')";
 			die();
 		}
 	}

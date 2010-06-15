@@ -21,7 +21,7 @@
 		if ($name == '') { $name = date('Y') . " New Task"; }
 		if (!preg_match("/^[0-9]+$/", $size)) { $size = 3; }
 		if ($url == '') { $url = 'http://www.music-ir.org/mirex/e6k/audio/'; }
-		
+
 		if (substr($url, -1) != "/") { $url = $url . "/"; }
 
 		if (!isset($_POST['task_ID']))
@@ -137,7 +137,7 @@
 				</div>
 				<div>
 					<label>Task Instructions</label>
-					<textarea name="task_Instructions" style="width:350px;height:100px;"></textarea>
+					<textarea name="task_Instructions" style="width:350px;height:100px;">Rate the similarity of the following Query-Candidate pairs. Assign a categorical similarity (Not similar, Somewhat Similar, or Very Similar) and a numeric similarity score. The numeric similarity score ranges from 0 (not similar) to 100 (very similar or identical).</textarea>
 				</div>
 				<input type="submit" name="submit" value="Create Task"/>
 			</form>

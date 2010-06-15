@@ -19,15 +19,15 @@
                 <li><a href="update-email-address.php">Update email address</a></li>
        		</ul>
        <?php 
-       		}
-			if ($loggedInUser->isGroupMember(2)) {
-		?>
-			<ul>
-				<li>ADMIN</li>
-				<li><a href="admin.task.edit.php">Tasks Admin</a></li>
-				<li><a href="admin.assignments.php">Assignments Admin</a></li>
-			</ul>
-		<?php
+				if ($loggedInUser->isGroupMember(2)) {
+			?>
+				<ul>
+					<li>ADMIN</li>
+					<li><a href="admin.task.edit.php">Tasks Admin</a></li>
+					<li><a href="admin.assignments.php">Assignments Admin</a></li>
+				</ul>
+			<?php
+				}
 			}
 		?>
        

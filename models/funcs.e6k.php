@@ -2,12 +2,22 @@
 require_once('JSON.php');
 $linkCounter = 0;
 
-function logEvent($user, $task, $query, $cand, $action, $target) 
+function logEvent($user, $task, $query, $cand, $action, $value) 
 {
 	global $db,$db_table_prefix;
 	if ($user != NULL) 
 	{
-	
+		$sql = "INSERT INTO
+					".$db_table_prefix."E6K_Event_Log
+				SET
+					event_Time = NOW(),
+					event_Username = '".$db->sql_escape($user->clean_username)."',
+					event_Task = '".$db->sql_escape($task)."',
+					event_Query = '".$db->sql_escape($query)."',
+					event_Candidate = '".$db->sql_escape($cand)."',
+					event_Action = '".$db->sql_escape($action)."',
+					event_Value = '".$db->sql_escape($value)."'";
+		$db->sql_query($sql);
 	}
 }
 
@@ -72,10 +82,11 @@ function getTasks()
 	return $tasks;	
 }
 
-function genMP3URL($base, $id)
+function genMP3URL($base, $id, $cand = NULL)
 {
 	global $linkCounter;
-	return $base . $id . ".mp3?i=" . ($linkCounter++);	
+	
+	return $base . $id . ".mp3?" . ($cand != NULL ? "c=".$cand : "i=" . ($linkCounter++));	
 }
 
 function getTask($id) 

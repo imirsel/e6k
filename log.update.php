@@ -3,8 +3,8 @@
 	if(!isUserLoggedIn()) { die(); }
 
 	if (isset($_GET['t']) &&
-		isset($_GET['b']) && 
-		isset($_GET['f']) &&
+		isset($_GET['q']) && 
+		isset($_GET['c']) &&
 		isset($_GET['a']) && 
 		isset($_GET['v'])
 	   )
@@ -18,6 +18,6 @@
 		$v = $_GET['v'];
 
 		logEvent($loggedInUser, $t, $q, $c, $a, $v);
-		echo "logged(\"", $q, "\",\"", $c, "\",", $b, "\",", $f, "\")";
+		echo json_encode(array($t, $q, $c, $a, $v));
 	}
 	die();
