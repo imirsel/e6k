@@ -425,6 +425,17 @@ function adminLoadResults($user, $task, $data, $append)
 			}
 		}
 
+		foreach ($queries as $q=>$g) 
+		{
+			// stick the query in the results list somewhere
+			// towards the middle
+			$clauses[] = "( '".$db->sql_escape($task)."',
+							'#IDCHECK#',
+							'".$db->sql_escape(trim($q))."',
+							'".$db->sql_escape(trim($q))."',
+							0.5)";
+		}
+
 		$db->sql_query($sql . join(",", $clauses));
 		
 		$sql = "INSERT IGNORE INTO
