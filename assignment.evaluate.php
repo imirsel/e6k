@@ -132,6 +132,7 @@ JSON = {
         </div>
         
         <div id="main">
+        <h1>Query <?php echo $query;?></h1>
         <?php
         if ($task['task_Instructions'] != '') {
         ?>
@@ -144,7 +145,7 @@ JSON = {
 		<?php
 		}
 		?>
-		<table cellspacing="0" cellpadding="5px">
+		<table cellspacing="0px" cellpadding="5px">
 			<tbody>
 				<tr>
 					<th>Listen</th>
@@ -170,6 +171,7 @@ JSON = {
         		?>
         			<tr id="row-<?php echo $c['result_Candidate'];?>">
 						<td>
+							<div style="font-weight:bold"><?php echo $c['result_Candidate']?></div>
 							<a type="audio/mpeg" href="<?php echo genMP3URL($task['task_MP3'], $query, $c['result_Candidate']);?>">Query</a><br/>
 							<a type="audio/mpeg" href="<?php echo genMP3URL($task['task_MP3'], $c['result_Candidate'], NULL);?>">Candidate</a>
 						</td>
@@ -198,7 +200,7 @@ JSON = {
 						<td>
 							<table>
 								<tr>
-									<td><div style="width:125px;margin-bottom:10px;margin-top:10px;" id="slider-<?php echo $c['result_Candidate'];?>"></div></td>
+									<td><div style="width:130px;margin-bottom:10px;margin-top:10px;" id="slider-<?php echo $c['result_Candidate'];?>"></div></td>
 									<td><input type="text" size="2" id="fine-<?php echo $c['result_Candidate'];?>" value="<?php echo ($c['result_Fine'] >= 0 ? $c['result_Fine'] : 0);?>"/></td></tr>
 							</table>
 						</td>
