@@ -518,6 +518,8 @@ function adminGenerateReport($user, $task)
 					a.assign_Task = r.result_Task
 				AND
 					a.assign_Query = r.result_Query
+				AND 
+					r.result_Submission != '#IDCHECK#'
 				GROUP BY
 					r.result_Submission, 
 					r.result_Task, 
