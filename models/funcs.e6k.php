@@ -2,6 +2,14 @@
 require_once('JSON.php');
 $linkCounter = 0;
 
+function enhash($str) {
+	$checksum = 0;
+	for ($i = 0; $i < strlen($str); $i++) {
+		$checksum += (36^$i) * ord(substr($str, $i, 1));
+	}
+	return base_convert(sprintf("%u", $checksum), 10, 36);
+}
+
 function logEvent($user, $task, $query, $cand, $action, $value) 
 {
 	global $db,$db_table_prefix;

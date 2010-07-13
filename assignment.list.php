@@ -82,7 +82,7 @@
 						?>
 						<div class="sub">
 							<div class="sub-shortcode">
-								<?php echo $query;?>
+								<?php echo enhash($query);?>
 								<div>
 									<div style="float:left;height:10px;width:<?php echo floor(75 * $sc/$st);?>px;background:#0c0;border-width:1px 0px 1px 1px;border-color:gray;border-style:solid;"></div><div style="float:left;height:10px;width:<?php echo ceil(75 * (($st-$sc)/$st));?>px;background:#c00;border-width:1px 1px 1px 0px;border-color:gray;border-style:solid;"></div>
 								</div>

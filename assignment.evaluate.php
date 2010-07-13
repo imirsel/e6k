@@ -25,6 +25,7 @@
 	foreach ($candidates as $c) {
 		$state[$c['result_Candidate']] = array("b"=>$c['result_Broad'], "f"=>$c['result_Fine']);
 	}
+	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -132,7 +133,7 @@ JSON = {
         </div>
         
         <div id="main">
-        <h1>Query <?php echo $query;?></h1>
+        <h1>Query <?php echo enhash($query);?></h1>
         <?php
         if ($task['task_Instructions'] != '') {
         ?>
@@ -171,7 +172,7 @@ JSON = {
         		?>
         			<tr id="row-<?php echo $c['result_Candidate'];?>">
 						<td>
-							<div style="font-weight:bold"><?php echo $c['result_Candidate']?></div>
+							<div style="font-weight:bold"><?php echo enhash($c['result_Candidate']);?></div>
 							<a type="audio/mpeg" href="<?php echo genMP3URL($task['task_MP3'], $query, $c['result_Candidate']);?>">Query</a><br/>
 							<a type="audio/mpeg" href="<?php echo genMP3URL($task['task_MP3'], $c['result_Candidate'], NULL);?>">Candidate</a>
 						</td>
