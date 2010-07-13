@@ -241,7 +241,7 @@ JSON = {
 			});
 		</script>
 		<script type="text/javascript">
-		var YMPParams = { displaystate: 3 }
+		var YMPParams = { displaystate: 3, autoadvance: false }
 		</script>
 		<script type="text/javascript" src="http://mediaplayer.yahoo.com/latest"></script>
 		<div>
