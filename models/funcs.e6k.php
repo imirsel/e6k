@@ -495,7 +495,7 @@ function adminGetAllAssignments($user, $task)
 	return $assignments;
 }
 
-function adminGenerateReport($user, $task)
+function adminGenerateReport($user, $task, $avg)
 {
 	global $db,$db_table_prefix;
 	$report = array();
@@ -503,31 +503,63 @@ function adminGenerateReport($user, $task)
 	//check if user is mirex organizer
 	if (($user != NULL) && ($user->isGroupMember(2)))
 	{
-		$sql = "SELECT 
-					r.result_Submission as SubID,
-					r.result_Query as QueryID,
-					a.assign_Genre as QueryGenre,
-					AVG(IF(r.result_Broad = 'VS',2,IF(r.result_Broad = 'SS',1,0))) AS AvgBroad,
-					AVG(r.result_Fine) AS FineAvg
-				FROM
-					".$db_table_prefix."E6K_Assignments a,
-					".$db_table_prefix."E6K_Results r					
-				WHERE
-					r.result_Task = '".$db->sql_escape($task)."'
-				AND
-					a.assign_Task = r.result_Task
-				AND
-					a.assign_Query = r.result_Query
-				AND 
-					r.result_Submission != '#IDCHECK#'
-				GROUP BY
-					r.result_Submission, 
-					r.result_Task, 
-					r.result_Query
-				ORDER BY
-					r.result_Submission,
-					a.assign_Genre,
-					r.result_Query";
+		if ($avg === true) {
+			$sql = "SELECT 
+						r.result_Submission as SubID,
+						r.result_Query as QueryID,
+						a.assign_Genre as QueryLabel,
+						AVG(IF(r.result_Broad = 'VS',2,IF(r.result_Broad = 'SS',1,0))) AS AvgBroad,
+						AVG(r.result_Fine) AS AvgFine
+					FROM
+						".$db_table_prefix."E6K_Assignments a,
+						".$db_table_prefix."E6K_Results r					
+					WHERE
+						r.result_Task = '".$db->sql_escape($task)."'
+					AND
+						a.assign_Task = r.result_Task
+					AND
+						a.assign_Query = r.result_Query
+					AND 
+						r.result_Submission != '#IDCHECK#'
+					GROUP BY
+						r.result_Submission, 
+						r.result_Task, 
+						r.result_Query
+					ORDER BY
+						r.result_Submission,
+						a.assign_Genre,
+						r.result_Query";
+		}
+		else {
+			$sql = "SELECT 
+						r.result_Submission as SubID,
+						r.result_Query as QueryID,
+						a.assign_Genre as QueryLabel,
+						r.result_Candidate as CandidateID,
+						IF(r.result_Broad = 'VS',2,IF(r.result_Broad = 'SS',1,0)) AS Broad,
+						r.result_Fine AS Fine
+					FROM
+						".$db_table_prefix."E6K_Assignments a,
+						".$db_table_prefix."E6K_Results r					
+					WHERE
+						r.result_Task = '".$db->sql_escape($task)."'
+					AND
+						a.assign_Task = r.result_Task
+					AND
+						a.assign_Query = r.result_Query
+					AND 
+						r.result_Submission != '#IDCHECK#'
+					GROUP BY
+						r.result_Submission, 
+						r.result_Task,
+						r.result_Query,
+						r.result_Candidate
+					ORDER BY
+						r.result_Submission,
+						a.assign_Genre,
+						r.result_Query,
+						r.result_Candidate";
+		}
 
 		$result = $db->sql_query($sql);
 		while (($row = $db->sql_fetchrow($result)) != null) {

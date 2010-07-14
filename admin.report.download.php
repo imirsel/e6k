@@ -13,10 +13,18 @@
 
 	if (!empty($_GET) && isset($_GET['task']))
 	{
+		$average = false;
+		$a = '';
+		$c = ",CandidateID";
+		if ((isset($_GET['avg'])) && ($_GET['avg'] == "true")) {
+			$average = true;
+			$a = "Avg";
+			$c = "";
+		}
 		header("Content-type: text/plain");
-		print "SubID,QueryID,QueryGenre,AvgBroad,AvgFine\n";
+		print "SubID,QueryID,QueryLabel{$c},{$a}Broad,{$a}Fine\n";
 
-		$report = adminGenerateReport($loggedInUser, $_GET['task']);
+		$report = adminGenerateReport($loggedInUser, $_GET['task'], $average);
 
 		foreach ($report as $row) 
 		{

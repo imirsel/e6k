@@ -104,10 +104,13 @@
 										{
 											?><span><?php echo $n;?> results loaded</span><?php
 										}
-										?>
-										<input type="button" onclick="window.location.href='admin.results.load.php?task=<?php echo $tid?>'" value="Load Data" />
-										<input type="button" onclick="window.location.href='admin.report.download.php?task=<?php echo $tid?>'" value="Generate Report"/><?php
 									?>
+									<input type="button" onclick="window.location.href='admin.results.load.php?task=<?php echo $tid?>'" value="Load Data" />
+								</div>
+								<div>
+									<label>Reports</label>
+									<input type="button" onclick="window.location.href='admin.report.download.php?task=<?php echo $tid?>'" value="Full Report"/>
+									<input type="button" onclick="window.location.href='admin.report.download.php?task=<?php echo $tid?>'&avg=true" value="Average Report"/>
 								</div>
 								<input type="submit" name="submit" value="Edit Task"/>
 							</form>							

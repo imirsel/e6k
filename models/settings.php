@@ -22,7 +22,7 @@
 	
 	//Generic website variables
 	$websiteName = "MIREX";
-	$websiteUrl = "http://music-ir.org/mirex/sub/"; //including trailing slash
+	$websiteUrl = "http://music-ir.org/mirex/e6k/"; //including trailing slash
 
 	//Do you wish UserCake to send out emails for confirmation of registration?
 	//We recommend this be set to true to prevent spam bots.
