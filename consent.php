@@ -112,10 +112,15 @@
 			<p>I certify that I am 18 years of age or older, I can print out a copy of this consent form, I have read the preceding and that I understand its contents. By selecting the checkbox below I am freely agreeing to participate in this study by filling out the survey.</p>
 			<form action="consent.php" method="post">
 			<?php
-				if (isset($_GET['assignTask']) && ($_GET['assignTask'] != '')) {
-				?>
-				<input type="hidden" name="assignTask" value="<?php echo $_GET['assignTask'];?>"/>
-				<?php
+				if (isset($_GET['assignTask']) || isset($_POST['assignTask'])) {
+					if (isset($_GET['assignTask'])) { $tid = $_GET['assignTask']; }
+					else { $tid = $_POST['assignTask']; }
+					
+					if (preg_match("/^[0-9]+$/", $tid)) {
+					?>
+					<input type="hidden" name="assignTask" value="<?php echo $tid;?>"/>
+					<?php
+					}
 				}
 			?>
 				<p>
