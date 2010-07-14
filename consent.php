@@ -17,6 +17,15 @@
 		($_POST['consent_Sign'] == 'Y'))
 	{
 		userGiveConsent($loggedInUser);
+
+		if (isset($_POST['assignTask']) && preg_match("/^[0-9]+$/", $_POST['assignTask'])) {
+			$tid = $_POST['assignTask'];
+			$assignments = userGetAssignments($loggedInUser, $tid);
+			if (count($assignments) == 0) {
+				userAssignQueries($loggedInUser, $tid);
+			}	
+			header("Location: assignment.list.php"); die();
+		}
 		header("Location: consent.php"); die();
 	}
 ?>
@@ -102,6 +111,13 @@
 
 			<p>I certify that I am 18 years of age or older, I can print out a copy of this consent form, I have read the preceding and that I understand its contents. By selecting the checkbox below I am freely agreeing to participate in this study by filling out the survey.</p>
 			<form action="consent.php" method="post">
+			<?php
+				if (isset($_GET['assignTask']) && ($_GET['assignTask'] != '')) {
+				?>
+				<input type="hidden" name="assignTask" value="<?php echo $_GET['assignTask'];?>"/>
+				<?php
+				}
+			?>
 				<p>
 				<input type="checkbox" value="Y" name="consent_Sign"/>
 				By checking this box, I consent that I have read and understand

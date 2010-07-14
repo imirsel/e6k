@@ -9,10 +9,10 @@
 	
 	//Prevent the user visiting the logged in page if he/she is not logged in
 	if (!isUserLoggedIn()) { header("Location: login.php"); die(); }
-	if (!userHasGivenConsent($loggedInUser)) { header("Location: consent.php"); die(); }
 
 	if ((!empty($_POST)) && (isset($_POST['task'])))
 	{
+		if (!userHasGivenConsent($loggedInUser)) { header("Location: consent.php?assignTask=".$_POST['task']); die(); }
 		$tid = $_POST['task'];
 		$assignments = userGetAssignments($loggedInUser, $tid);
 		if (count($assignments) == 0) {
