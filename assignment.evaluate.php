@@ -185,6 +185,7 @@ JSON = {
 									{
 										?>
 										<td>
+											<?php echo $b;?>
 											<input 	type="radio" 
 													value="<?php echo $b;?>" 
 													name="broad-<?php echo $c['result_Candidate'];?>" 
