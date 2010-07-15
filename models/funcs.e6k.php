@@ -2,7 +2,7 @@
 require_once('JSON.php');
 $linkCounter = 0;
 
-function enhash($s, $q=0) {
+function enhash($s, $q='cookie') {
 	$str = $q . $s;
 	$x = base_convert("yesterdayspudding", 36, 10);
 	$checksum = 0;
