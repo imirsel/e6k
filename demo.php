@@ -410,11 +410,11 @@ colorRow = function(candidate)
 		<div> 
 			<h2>Finish</h2> 
 			<p>Quickly scan the candidates above, all rows should be green, indicating that
-			you've successfully completed each evaluation. Your similarity judgments
-			are saved automatically when you make them. If you are afraid that the
-			system has not logged any of your judgments properly, reload this page
-			in your browser and check all the results.</p> 
-			<input type="button" onclick="logEvent('', 'click', 'finish-button');window.location.href='assignment.list.php'" value="View All Assignments"/> 
+			you've successfully completed each evaluation. Ordinarily, your similarity judgments
+			are saved automatically when you make them. However, this is a demo and results are 
+			not saved. Reloading this page will reset the judgments you've already made.
+			</p> 
+			<input type="button" onclick="window.location.href='assignment.list.php'" value="View All Assignments"/> 
 		</div> 
 		</div>  
 	</div> 
