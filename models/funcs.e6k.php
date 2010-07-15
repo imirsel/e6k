@@ -2,11 +2,12 @@
 require_once('JSON.php');
 $linkCounter = 0;
 
-function enhash($str, $q=0) {
-	$str = strrev($str) . $q;
+function enhash($s, $q=0) {
+	$str = "beer" . $s;
+	$x = base_convert("yesterdayspudding", 36, 10);
 	$checksum = 0;
 	for ($i = 0; $i < strlen($str); $i++) {
-		$checksum += pow(36,$i) * ord(substr($str, $i, 1));
+		$checksum += ($x & pow(ord(substr($str, $i, 1)), $i)) % 173824;
 	}
 	return base_convert(sprintf("%u", $checksum), 10, 36);
 }
