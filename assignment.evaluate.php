@@ -173,7 +173,7 @@ JSON = {
         		?>
         			<tr id="row-<?php echo $c['result_Candidate'];?>">
 						<td>
-							<div style="font-weight:bold"><?php echo enhash($c['result_Candidate']);?></div>
+							<div style="font-weight:bold"><?php echo enhash($c['result_Candidate'], "p");?></div>
 							<a type="audio/mpeg" href="<?php echo genMP3URL($task['task_MP3'], $query, $c['result_Candidate']);?>">Query</a><br/>
 							<a type="audio/mpeg" href="<?php echo genMP3URL($task['task_MP3'], $c['result_Candidate'], NULL);?>">Candidate</a>
 						</td>
