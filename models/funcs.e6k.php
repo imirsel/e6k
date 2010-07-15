@@ -3,6 +3,7 @@ require_once('JSON.php');
 $linkCounter = 0;
 
 function enhash($str) {
+	$str = strrev($str);
 	$checksum = 0;
 	for ($i = 0; $i < strlen($str); $i++) {
 		$checksum += (36^$i) * ord(substr($str, $i, 1));
