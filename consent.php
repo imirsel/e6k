@@ -95,7 +95,7 @@
 			<p>Participation as a grader does not involve risks beyond those encountered in daily life.</p>
 
 			<h3>Time Commitment</h3>
-			<po>Evaluation of a single query against a candidate list takes approximately 8-10 minutes, completing 20 queries will take you approximately 2 to 3 hours. You can stop at anytime and resume grading, allowing you to complete the entire process in stages.</p>
+			<po>Evaluation of a single query against a single candidate takes approximately one minute. Completing all assigned queries will take you approximately 2 to 3 hours. You can stop at anytime and resume grading, allowing you to complete the entire process in stages.</p>
 
 			<h3>Contact Information</h3>
 			<p>If you have any questions or concerns about this study, please contact the investigators.</p>
