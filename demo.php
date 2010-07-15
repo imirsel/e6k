@@ -414,7 +414,6 @@ colorRow = function(candidate)
 			are saved automatically when you make them. However, this is a demo and results are 
 			not saved. Reloading this page will reset the judgments you've already made.
 			</p> 
-			<input type="button" onclick="window.location.href='assignment.list.php'" value="View All Assignments"/> 
 		</div> 
 		</div>  
 	</div> 
