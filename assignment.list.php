@@ -34,7 +34,7 @@
 			foreach ($tasks as $tid=>$task) {
 				
 				?>
-				<h3><?php echo $task['task_Name'];?> Assignments for <?php echo $loggedInUser->display_username;?></h3>
+				<h3><?php echo stripslashes($task['task_Name']);?> Assignments for <?php echo $loggedInUser->display_username;?></h3>
 				<?php
 	            $assignments = userGetAssignments($loggedInUser, $tid); 
 	            if (count($assignments) == 0) 

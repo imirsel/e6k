@@ -133,7 +133,8 @@ JSON = {
         </div>
         
         <div id="main">
-        <h1>Query <?php echo enhash($query);?></h1>
+        <h1><?php echo stripslashes($task['task_Name']);?></h1>
+        <h2>Query <?php echo enhash($query);?></h2>
         <?php
         if ($task['task_Instructions'] != '') {
         ?>
