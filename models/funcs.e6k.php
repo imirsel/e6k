@@ -6,7 +6,7 @@ function enhash($str) {
 	$str = strrev($str);
 	$checksum = 0;
 	for ($i = 0; $i < strlen($str); $i++) {
-		$checksum += (36^$i) * ord(substr($str, $i, 1));
+		$checksum += pow(36, $i) * ord(substr($str, $i, 1));
 	}
 	return base_convert(sprintf("%u", $checksum), 10, 36);
 }
