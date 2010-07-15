@@ -151,7 +151,7 @@ JSON = {
 				<tr>
 					<th>Listen</th>
 					<th>Categorical Similarity</th>
-					<th> Similarity</th>
+					<th>Similarity</th>
 				</tr>
 				<tr>
 					<td>Same query for all candidates</td>
@@ -207,7 +207,6 @@ JSON = {
 							</table>
 						</td>
 					</tr>
-				</div>
 		<?php
         	}        
         ?>
@@ -218,16 +217,14 @@ JSON = {
         	foreach ($candidates as $c) 
 			{
 			?>$("#slider-<?php echo $c['result_Candidate'];?>").slider({ 
-				min: 0, 
-				max: 100,
-				step: 1,
+				min: 0, max: 100, step: 1,
 				value: <?php echo ($c['result_Fine'] >= 0 ? $c['result_Fine'] : -1);?>,
 				stop: function(event, ui) { 
 					var x = $("#fine-<?php echo $c['result_Candidate'];?>");
 					x[0].value=ui.value;
 					updateRelevance('<?php echo $c['result_Candidate'];?>', 'f', ui.value);
 				}
-			});
+			    });
 				<?php
 				if (($c['result_Broad'] != '') && ($c['result_Fine'] > -1)) {
 				?>

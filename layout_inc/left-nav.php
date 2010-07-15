@@ -6,6 +6,7 @@
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="login.php">Login</a></li>
+                <li><a href="demo.php">Try E6K Demo</a></li>
                 <li><a href="register.php">Register</a></li>
                 <li><a href="forgot-password.php">Forgot Password</a></li>
                 <li><a href="resend-activation.php">Resend Activation Email</a></li>
@@ -14,6 +15,7 @@
        		<ul>
             	<li><a href="logout.php">Logout</a></li>
             	<li><a href="account.php">Account Info</a></li>
+                <li><a href="demo.php">Try E6K Demo</a></li>
        			<li><a href="consent.php">Informed Consent</a></li>
        			<li><a href="assignment.list.php">My Assignments</a></li>
        			<li><a href="change-password.php">Change password</a></li>
