@@ -3,7 +3,7 @@ require_once('JSON.php');
 $linkCounter = 0;
 
 function enhash($s, $q=0) {
-	$str = "beer" . $s;
+	$str = $q . $s;
 	$x = base_convert("yesterdayspudding", 36, 10);
 	$checksum = 0;
 	for ($i = 0; $i < strlen($str); $i++) {
