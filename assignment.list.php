@@ -29,6 +29,7 @@
         </div>
         
         <div id="main">
+			<h2>Assignments for <?php echo $loggedInUser->display_username;?></h2>
         	<div class="alert">Please be careful when signing up for evaluation assignments and make
         		sure you are signing up for the correct task.</div>
             <?php
@@ -36,7 +37,7 @@
 			foreach ($tasks as $tid=>$task) {
 				
 				?>
-				<h3><?php echo stripslashes($task['task_Name']);?> Assignments for <?php echo $loggedInUser->display_username;?></h3>
+				<h3>Task: <?php echo stripslashes($task['task_Name']);?></h3>
 				<?php
 	            $assignments = userGetAssignments($loggedInUser, $tid); 
 	            if (count($assignments) == 0) 
