@@ -68,8 +68,19 @@
 								</div>
 							</div>
 							<div class="sub-info">
-								<?php echo ($grader != '' ? "Assigned to " . $grader : "Unassigned");?> 
-								(<?php echo $sc, ' of ', $st;?> candidates completed)
+								<?php 
+								if ($grader == '') {
+									echo "Unassigned";
+								}
+								else {
+									echo "Assigned to " . $grader;
+									?>
+									(<a href="admin.assignment.recall.php?t=<?php echo $tid;?>&q=<?php echo $query;?>">Recall Query</a>)
+									<?php									
+								}
+								?> 
+								<br/>
+								<?php echo $sc, ' of ', $st;?> candidates completed
 							</div>
 							<div class="clear" style="height:0px;"></div>
 						</div>

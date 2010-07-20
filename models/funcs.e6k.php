@@ -471,6 +471,39 @@ function adminLoadResults($user, $task, $data, $append)
 	}
 }
 
+function adminRecallQuery($user, $task, $query) 
+{
+	global $db,$db_table_prefix;
+
+	//check if user is mirex organizer
+	if (($user != NULL) && ($user->isGroupMember(2)))
+	{
+		$sql = "UPDATE 
+					".$db_table_prefix."E6K_Assignments
+				SET 
+					assign_Grader=NULL,
+					assign_Timestamp=NULL
+				WHERE
+					assign_Task = '".$db->sql_escape($task)."'
+				AND	assign_Query = '".$db->sql_escape($query)."'";
+
+		$db->sql_query($sql);
+
+		$sql = "UPDATE 
+					".$db_table_prefix."E6K_Results
+				SET 
+					result_Grader=NULL,
+					result_Timestamp=NULL,
+					result_Broad='',
+					result_Fine=-1
+				WHERE
+					result_Task = '".$db->sql_escape($task)."'
+				AND	result_Query = '".$db->sql_escape($query)."'";
+
+		$db->sql_query($sql);
+	}
+}
+
 function adminGetAllAssignments($user, $task) 
 {
 	global $db,$db_table_prefix;
