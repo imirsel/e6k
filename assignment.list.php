@@ -29,6 +29,8 @@
         </div>
         
         <div id="main">
+        	<div class="alert">Please be careful when signing up for evaluation assignments and make
+        		sure you are signing up for the correct task.</div>
             <?php
 			$tasks = getTasks();
 			foreach ($tasks as $tid=>$task) {
@@ -51,7 +53,7 @@
 	            	<div>
 						<form action="assignment.get.php" method="post">
 							<input type="hidden" name="task" value="<?php echo $tid;?>"/>
-							<input type="submit" value="Get Assignment">
+							<span class="alert">Be sure you're signing up for the correct task!! <input type="submit" value="Get Assignment">  </span>
 						</form>
 		            </div>
 	            	<?php
