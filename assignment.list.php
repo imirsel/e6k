@@ -38,6 +38,7 @@
 				
 				?>
 				<h3>Task: <?php echo stripslashes($task['task_Name']);?></h3>
+				<div style="margin-bottom:40px;padding-bottom:15px;border-bottom:1px solid lightgray">
 				<?php
 	            $assignments = userGetAssignments($loggedInUser, $tid); 
 	            if (count($assignments) == 0) 
@@ -99,8 +100,12 @@
 						<?php
 					}
 	            }
+	            ?>
+	            </div>
+	            <?php
 			}
    			?>
+   			
   		</div>  
 	</div>
 </div>
