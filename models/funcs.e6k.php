@@ -322,6 +322,43 @@ function userGetAssignmentStatus($user, $task, $query)
 	}
 }
 
+function adminGetCandidates($user, $task, $query) 
+{
+	global $db,$db_table_prefix;
+	$candidates = array();
+
+	//check if user is mirex organizer
+	if ($user->isGroupMember(2))
+	{
+		$sql = "SELECT
+					r.result_Query,
+					r.result_Candidate,
+					r.result_Broad,
+					r.result_Fine
+				FROM
+					".$db_table_prefix."E6K_Results r
+				WHERE
+					r.result_Task = '".$db->sql_escape($task)."'
+				AND
+					r.result_Query = '".$db->sql_escape($query)."'
+				AND
+					r.result_Active = 1
+				GROUP BY
+					r.result_Task,
+					r.result_Query,
+					r.result_Candidate
+				ORDER BY
+					r.result_Random ASC;
+				";
+
+		$result = $db->sql_query($sql);
+		while (($row = $db->sql_fetchrow($result)) != null)
+		{
+			$candidates[] = $row;
+		}
+	}
+	return $candidates;
+}
 
 function adminCreateTask($user, $name, $size, $url, $inst)
 {
