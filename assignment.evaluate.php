@@ -226,6 +226,21 @@ JSON = {
 					updateRelevance('<?php echo $c['result_Candidate'];?>', 'f', ui.value);
 				}
 			    });
+				$("#fine-<?php echo $c['result_Candidate'];?>").change(function(){
+					logEvent('<?php echo $c['result_Candidate'];?>', "m-judgment", $(this).val());
+
+					if ($(this).val() > 100) { $(this).val(100); }
+					if ($(this).val() < 0)  { $(this).val(0); }
+
+					if (($(this).val() >= 0) && ($(this).val() <= 100)) {
+						$("#slider-<?php echo $c['result_Candidate'];?>").slider( "option", "value", $(this).val() );
+						updateRelevance('<?php echo $c['result_Candidate'];?>', 'f', $(this).val());
+					}
+					else {
+						alert("Score must be between 0 and 100");
+						$(this).val(0);
+					}
+				});
 				<?php
 				if (($c['result_Broad'] != '') && ($c['result_Fine'] > -1)) {
 				?>
