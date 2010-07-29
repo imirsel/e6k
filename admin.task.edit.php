@@ -110,7 +110,7 @@
 								<div>
 									<label>Reports</label>
 									<input type="button" onclick="window.location.href='admin.report.download.php?task=<?php echo $tid?>'" value="Full Report"/>
-									<input type="button" onclick="window.location.href='admin.report.download.php?task=<?php echo $tid?>'&avg=true" value="Average Report"/>
+									<input type="button" onclick="window.location.href='admin.report.download.php?task=<?php echo $tid?>&avg=true'" value="Average Report"/>
 								</div>
 								<input type="submit" name="submit" value="Edit Task"/>
 							</form>							
