@@ -11,7 +11,7 @@
 	
 	//Database Information
 	$dbtype = "mysql"; 
-	$db_host = "localhost";
+	$db_host = "nema.lis.uiuc.edu";
 	$db_user = "mirexsubs";
 	$db_pass = "ihatemirex";
 	$db_name = "mirexsubs";
