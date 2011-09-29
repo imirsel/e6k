@@ -465,9 +465,9 @@ function adminLoadResults($user, $task, $data, $append)
 				$queries[$q] = $g;
 
 				$clauses[] = "( '".$db->sql_escape($task)."', 	
-								'".$db->sql_escape(trim($s))."',
-								'".$db->sql_escape(trim($q))."',
-								'".$db->sql_escape(trim($c))."',
+								'".$db->sql_escape(strTrim($s))."',
+								'".$db->sql_escape(strTrim($q))."',
+								'".$db->sql_escape(strTrim($c))."',
 								rand())";
 			}
 		}
@@ -478,8 +478,8 @@ function adminLoadResults($user, $task, $data, $append)
 			// towards the middle
 			$clauses[] = "( '".$db->sql_escape($task)."',
 							'#IDCHECK#',
-							'".$db->sql_escape(trim($q))."',
-							'".$db->sql_escape(trim($q))."',
+							'".$db->sql_escape(strTrim($q))."',
+							'".$db->sql_escape(strTrim($q))."',
 							0.5)";
 		}
 
@@ -500,8 +500,8 @@ function adminLoadResults($user, $task, $data, $append)
 		foreach ($queries as $q=>$g) 
 		{
 			$clauses[] = "( '".$db->sql_escape($task)."', 	
-							'".$db->sql_escape($q)."',
-							'".$db->sql_escape($g)."')";
+							'".$db->sql_escape(strTrim($q))."',
+							'".$db->sql_escape(strTrim($g))."')";
 		}
 
 		$db->sql_query($sql . join(",", $clauses));
@@ -655,4 +655,8 @@ if (!function_exists('json_encode'))
 		return $json->decode($a);
 	}
 }
-  	
+  
+function strTrim($str){
+return trim(trim($str),'"');
+}
+	
