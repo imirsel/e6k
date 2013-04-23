@@ -80,7 +80,10 @@ function getTasks()
 					t.task_Name,
 					t.task_Assignment_Size,
 					t.task_MP3,
-					t.task_Instructions
+					t.task_Instructions,
+					t.task_Type,
+					t.task_Consent_Form,
+					t.task_Evaluation_Form
 			FROM 
 					".$db_table_prefix."E6K_Tasks t
 			";
@@ -109,7 +112,10 @@ function getTask($id)
 					t.task_Name,
 					t.task_MP3,
 					t.task_Assignment_Size,
-					t.task_Instructions
+					t.task_Instructions,
+					t.task_Consent_Form,
+					t.task_Evaluation_Form,
+					t.task_Type
 			FROM 
 					".$db_table_prefix."E6K_Tasks t
 			WHERE
@@ -117,6 +123,21 @@ function getTask($id)
 
 	$result = $db->sql_query($sql);
 	return $db->sql_fetchrow($result);
+}
+
+function getNextSubTask($user, $tid) 
+{
+	global $db,$db_table_prefix; 
+	$tasks = array();
+
+	$sql = "SELECT min(input_Sub_Task) as next from ".$db_table_prefix."E6K_Subtask 
+                WHERE input_Task = '".$db->sql_escape($tid)."' AND input_Sub_Task NOT IN (
+	        SELECT assign_Sub_Task from ".$db_table_prefix."E6K_Subtask_Assignments
+                WHERE assign_Grader = '".$db->sql_escape($user->clean_username)."' AND assign_Task = '".$db->sql_escape($tid)."')"; 
+                
+	$result = $db->sql_query($sql);
+	$row =  $db->sql_fetchrow($result);
+	return $row['next'];
 }
 
 function countAvailableAssignments($task) 
@@ -137,7 +158,30 @@ function countAvailableAssignments($task)
 	return $row['num'];
 }
 
-function userGiveConsent($user)
+function countAvailableSubtasks($task,$user) 
+{
+	global $db,$db_table_prefix; 
+
+	$sql = "SELECT 
+				count(distinct input_Sub_Task) as num
+			FROM 
+				".$db_table_prefix."E6K_Subtask
+			WHERE
+				input_Task = ".$db->sql_escape($task)."
+			AND
+				input_Sub_Task NOT IN (
+                                  select assign_Sub_Task 
+                                  from ".$db_table_prefix."E6K_Subtask_Assignments 
+                                  where assign_Grader = '".$db->sql_escape($user->clean_username)."' and assign_Task = '".$db->sql_escape($task)."')";
+
+	$result = $db->sql_query($sql);
+	$row = $db->sql_fetchrow($result);
+error_log($sql);
+error_log($row['num']);
+	return $row['num'];
+}
+
+function userGiveConsent($user, $form)
 {
 	global $db,$db_table_prefix;
 	if ($user != NULL)
@@ -152,13 +196,14 @@ function userGiveConsent($user)
 					consent_Status='Y',
 					consent_Date = NOW(),
 					consent_IP = '".$db->sql_escape($ip)."',
+					consent_Form = '".$db->sql_escape($form)."',
 					consent_UserAgent = '".$db->sql_escape($ua)."'";
 
 		$db->sql_query($sql);
 	}
 }
 
-function userHasGivenConsent($user)
+function userHasGivenConsent($user, $form)
 {
 	global $db,$db_table_prefix;
 	if ($user != NULL)
@@ -169,6 +214,8 @@ function userHasGivenConsent($user)
 					".$db_table_prefix."E6K_Consent
 				WHERE
 					consent_Username='".$db->sql_escape($user->clean_username)."'
+				AND
+					consent_Form='".$db->sql_escape($form)."'
 				AND
 					consent_Status='Y'";
 
@@ -224,6 +271,29 @@ function userGetCandidates($user, $task, $query)
 	return $candidates;
 }
 
+function userGetSubtaskItems($user, $task, $subTask) 
+{
+	global $db,$db_table_prefix;
+	$items = array();
+
+	//check if user is mirex organizer
+	if ($user != NULL)
+	{
+		$sql = "SELECT input_Name, input_Value, result_Value
+			FROM   ".$db_table_prefix."E6K_Subtask LEFT OUTER JOIN ".$db_table_prefix."E6K_Subtask_Results 
+                        ON (input_Task = result_Task AND input_Sub_Task = result_Sub_Task and input_Name = result_Name)
+			WHERE   input_Task = '".$db->sql_escape($task)."'
+			AND     input_Sub_Task = '".$db->sql_escape($subTask)."'
+			";
+		$result = $db->sql_query($sql);
+		while (($row = $db->sql_fetchrow($result)) != null)
+		{
+			$items[] = $row;
+		}
+	}
+	return $items;
+}
+
 function userGetAssignments($user, $task) 
 {
 	global $db,$db_table_prefix; 
@@ -243,6 +313,26 @@ function userGetAssignments($user, $task)
 		$result = $db->sql_query($sql);
 		while (($row = $db->sql_fetchrow($result)) != null) {
 			$assignments[] = stripslashes($row['assign_Query']);
+		}
+	}
+	return $assignments;
+}
+
+function userGetSubTasks($user, $task) 
+{
+	global $db,$db_table_prefix; 
+	$assignments = array();
+
+	if ($user != NULL) {
+		$sql = "SELECT 	assign_Sub_Task
+			FROM 	".$db_table_prefix."E6K_Subtask_Assignments
+			WHERE 	assign_Task = '".$db->sql_escape($task)."'
+			AND	assign_Grader = '".$db->sql_escape($user->clean_username)."'				
+			ORDER BY assign_Sub_Task DESC ";
+
+		$result = $db->sql_query($sql);
+		while (($row = $db->sql_fetchrow($result)) != null) {
+			$assignments[] = stripslashes($row['assign_Sub_Task']);
 		}
 	}
 	return $assignments;
@@ -270,6 +360,27 @@ function userAssignQueries($user, $tid)
 					rand()
 				LIMIT
 					".$lim."
+				";
+		$db->sql_query($sql);
+	}
+}
+
+function userAssignSubtask($user, $tid)
+{
+	global $db,$db_table_prefix; 
+	
+	if ($user != NULL) 
+	{
+                $subTask = getNextSubTask($user, $tid);
+		$task = getTask($tid);
+		$lim = $task['task_Assignment_Size'];
+		
+		$sql = "INSERT INTO  ".$db_table_prefix."E6K_Subtask_Assignments
+				SET
+					assign_Task = '".$db->sql_escape($tid)."',
+					assign_Sub_Task = '".$db->sql_escape($subTask)."',
+					assign_Timestamp = NOW(), 
+					assign_Grader = '".$db->sql_escape($user->clean_username)."'
 				";
 		$db->sql_query($sql);
 	}
@@ -322,6 +433,58 @@ function userGetAssignmentStatus($user, $task, $query)
 	}
 }
 
+function userSetSubTaskItemValue($user, $task, $subTask, $itemName, $itemValue) 
+{
+	global $db,$db_table_prefix;
+
+	if ($user != NULL)
+	{
+		$sql = "INSERT INTO  ".$db_table_prefix."E6K_Subtask_Results
+				SET
+					result_Task = '".$db->sql_escape($task)."',
+					result_Sub_Task = '".$db->sql_escape($subTask)."',
+					result_Timestamp = NOW(), 
+					result_Grader = '".$db->sql_escape($user->clean_username)."',
+					result_Name = '".$db->sql_escape($itemName)."',
+					result_Value = '".$db->sql_escape($itemValue)."'
+				";
+		$db->sql_query($sql);
+error_log($sql);
+	}
+}
+
+
+function userGetSubTaskStatus($user, $task, $subTask)
+{
+	global $db,$db_table_prefix;
+
+	if ($user != NULL)
+	{
+		$sql = "SELECT  count(*) as num
+			FROM    ".$db_table_prefix."E6K_Subtask_Results
+			WHERE   result_Task = '".$db->sql_escape($task)."'
+			AND     result_Sub_Task = '".$db->sql_escape($subTask)."'
+			AND     result_Grader = '".$db->sql_escape($user->clean_username)."'
+			";
+
+		$result = $db->sql_query($sql);
+		$status = array();
+		$row = $db->sql_fetchrow($result);
+		$status['completed'] = $row['num'];
+
+		$sql = "SELECT   count(*) as num
+			FROM     ".$db_table_prefix."E6K_Subtask
+			WHERE    input_Task = '".$db->sql_escape($task)."'
+			AND      input_Sub_Task = '".$db->sql_escape($subTask)."'
+			";				
+
+		$result = $db->sql_query($sql);
+		$row = $db->sql_fetchrow($result);
+		$status['total'] = $row['num'];
+		return $status;
+	}
+}
+
 function adminGetCandidates($user, $task, $query) 
 {
 	global $db,$db_table_prefix;
@@ -360,7 +523,7 @@ function adminGetCandidates($user, $task, $query)
 	return $candidates;
 }
 
-function adminCreateTask($user, $name, $size, $url, $inst)
+function adminCreateTask($user, $name, $size, $url, $inst, $consent, $eval, $type)
 {
 	global $db,$db_table_prefix;
 
@@ -373,12 +536,15 @@ function adminCreateTask($user, $name, $size, $url, $inst)
 					task_Name = '".$db->sql_escape($name)."',
 					task_Assignment_Size = '".$db->sql_escape($size)."',
 					task_MP3 = '".$db->sql_escape($url)."',
+					task_Type = '".$db->sql_escape($type)."',
+					task_Consent_Form = '".$db->sql_escape($consent)."',
+					task_Evaluation_Form = '".$db->sql_escape($eval)."',
 					task_Instructions = '".$db->sql_escape($inst)."'";
 		$db->sql_query($sql);
 	}
 }
 
-function adminUpdateTask($user, $task, $name, $size, $url, $inst) 
+function adminUpdateTask($user, $task, $name, $size, $url, $inst, $consent, $eval, $type) 
 {
 	global $db,$db_table_prefix;
 
@@ -391,6 +557,9 @@ function adminUpdateTask($user, $task, $name, $size, $url, $inst)
 					task_Name = '".$db->sql_escape($name)."',
 					task_Assignment_Size = '".$db->sql_escape($size)."',
 					task_MP3 = '".$db->sql_escape($url)."',
+					task_Type = '".$db->sql_escape($type)."',
+					task_Consent_Form = '".$db->sql_escape($consent)."',
+					task_Evaluation_Form = '".$db->sql_escape($eval)."',
 					task_Instructions = '".$db->sql_escape($inst)."'
 				WHERE
 					task_ID = '".$db->sql_escape($task)."'";
@@ -507,6 +676,64 @@ function adminLoadResults($user, $task, $data, $append)
 		$db->sql_query($sql . join(",", $clauses));
 	}
 }
+
+function adminLoadInput($user, $task, $data, $append) 
+{
+	global $db,$db_table_prefix;
+
+	//check if user is mirex organizer
+	if (($user != NULL) && ($user->isGroupMember(2)))
+	{
+		if (!$append) 
+		{
+			$sql = "DELETE FROM
+						".$db_table_prefix."E6K_Subtask 
+					WHERE
+						result_Task = '".$db->sql_escape($task)."'";
+			$db->sql_query($sql);
+
+			$sql = "DELETE FROM
+						".$db_table_prefix."E6K_Assignments 
+					WHERE
+						assign_Task = '".$db->sql_escape($task)."'";
+			$db->sql_query($sql);
+		}
+		
+		// Create Result Records
+		$sql = "INSERT IGNORE INTO 
+					".$db_table_prefix."E6K_Subtask 
+					(
+						input_Task, 
+						input_Sub_Task,
+						input_Name,
+						input_Value
+					)
+				VALUES
+				";
+				
+		$items = array();				
+		$clauses = array();
+
+		foreach ($data as $row) 
+		{
+			list($subtask, $name, $value) = preg_split("/[,\t]/", $row);
+			if (($subtask != '') && ($name != '') && ($value != '')) {
+				$items[$name] = $value;
+
+				$clauses[] = "( '".$db->sql_escape($task)."', 	
+								'".$db->sql_escape(strTrim($subtask))."',
+								'".$db->sql_escape(strTrim($name))."',
+								'".$db->sql_escape(strTrim($value))."')";
+			}
+		}
+
+		error_log ($sql .join(",", $clauses));
+		$db->sql_query($sql . join(",", $clauses));
+	}
+}
+
+
+
 
 function adminRecallQuery($user, $task, $query) 
 {

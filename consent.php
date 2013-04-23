@@ -10,23 +10,22 @@
 	//Prevent the user visiting the logged in page if he/she is not logged in
 	if (!isUserLoggedIn()) { header("Location: login.php"); die(); }
 
-	$consent = userHasGivenConsent($loggedInUser);
+	$tid = $_POST['assignTask'];
+	$task = getTask($tid);
+	$consentForm = $task['task_Consent_Form'];
+	$consent = userHasGivenConsent($loggedInUser, $tid);
 
 	if (empty($consent) &&
 		isset($_POST['consent_Sign']) &&
 		($_POST['consent_Sign'] == 'Y'))
 	{
-		userGiveConsent($loggedInUser);
+		userGiveConsent($loggedInUser, $consentForm);
 
-		if (isset($_POST['assignTask']) && preg_match("/^[0-9]+$/", $_POST['assignTask'])) {
-			$tid = $_POST['assignTask'];
-			$assignments = userGetAssignments($loggedInUser, $tid);
-			if (count($assignments) == 0) {
-				userAssignQueries($loggedInUser, $tid);
-			}
-			header("Location: assignment.list.php"); die();
+		$assignments = userGetAssignments($loggedInUser, $tid);
+		if (count($assignments) == 0) {
+			userAssignQueries($loggedInUser, $tid);
 		}
-		header("Location: consent.php"); die();
+		header("Location: assignment.list.php"); die();
 	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

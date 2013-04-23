@@ -17,22 +17,27 @@
 		$size = $_POST['task_Assignment_Size'];
 		$url  = $_POST['task_MP3'];
 		$inst = $_POST['task_Instructions'];
+		$consent = $_POST['task_Consent_Form'];
+		$eval = $_POST['task_Evaluation_Form'];
+		$type = $_POST['task_Type'];
 		
 		if ($name == '') { $name = date('Y') . " New Task"; }
 		if (!preg_match("/^[0-9]+$/", $size)) { $size = 3; }
 		if ($url == '') { $url = 'http://www.music-ir.org/mirex/e6k/audio/'; }
+		if ($consent == '') { $url = 'consent.php'; }
+		if ($eval == '') { $url = 'assignment.evaluate.php'; }
 
 		if (substr($url, -1) != "/") { $url = $url . "/"; }
 
 		if (!isset($_POST['task_ID']))
 		{
-			adminCreateTask($loggedInUser, $name, $size, $url, $inst);
+			adminCreateTask($loggedInUser, $name, $size, $url, $inst, $consent, $eval, $type);
 			$result = "created";
 		}
 		else 
 		{
 			$tid = $_POST['task_ID'];			
-			adminUpdateTask($loggedInUser, $tid, $name, $size, $url, $inst);
+			adminUpdateTask($loggedInUser, $tid, $name, $size, $url, $inst, $consent, $eval, $type);
 			$result = "updated";
 		}
 		header("Location: admin.task.edit.php?" . $result); die();
@@ -91,6 +96,18 @@
 								<div>
 									<label>MP3 Base URL</label>
 									<input type="text" name="task_MP3" value="<?php echo $task['task_MP3'];?>" size="45"/>
+								</div>
+								<div>
+									<label>Consent Form</label>
+									<input type="text" name="task_Consent_Form" value="<?php echo $task['task_Consent_Form'];?>" size="45"/>
+								</div>
+								<div>
+									<label>Evaluation Form</label>
+									<input type="text" name="task_Evaluation_Form" value="<?php echo $task['task_Evaluation_Form'];?>" size="45"/>
+								</div>
+								<div>
+									<label>Task Type</label>
+									<input type="text" name="task_Type" value="<?php echo $task['task_Type'];?>" size="45"/>
 								</div>
 								<div>
 									<label>Task Instructions</label>

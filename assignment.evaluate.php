@@ -9,16 +9,19 @@
 	
 	//Prevent the user visiting the logged in page if he/she is not logged in
 	if (!isUserLoggedIn()) { header("Location: login.php"); die(); }
-	if (!userHasGivenConsent($loggedInUser)) { header("Location: consent.php"); die(); }
-	
+
 	if (!isset($_GET['task']) || !isset($_GET['query'])) 
 	{
 		header("Location: assignment.list.php"); die();
 	}
-	
+
 	$tid = $_GET['task'];
-	$query = $_GET['query'];
 	$task = getTask($tid);
+        $consentForm = $task['task_Consent_Form'];
+
+        if (!userHasGivenConsent($loggedInUser, $consentForm)) { header("Location: ". $consentForm ."?assignTask=$tid"); die(); }
+
+	$query = $_GET['query'];
 
 	$candidates = userGetCandidates($loggedInUser, $tid, $query);	
 	$state = array();

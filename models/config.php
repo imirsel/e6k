@@ -15,7 +15,7 @@
 	require_once("settings.php");
 
 	//Dbal Support - Thanks phpBB ; )
-	require_once("db/".$dbtype.".php");
+	require_once("db/mysql.php");
 	
 	//Construct a db instance
 	$db = new $sql_db();

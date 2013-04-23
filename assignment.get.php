@@ -14,17 +14,22 @@
 	if ((!empty($_POST)) && (isset($_POST['task'])))
 	{
 		$tid = $_POST['task'];
+		$task = getTask($tid);
+		$consentForm = $task['task_Consent_Form'];
 
 		if ((isset($_POST['confirm'])) && (strtoupper($_POST['confirm']) == "YES")) {
-			if (!userHasGivenConsent($loggedInUser)) { header("Location: consent.php?assignTask=".$_POST['task']); die(); }
+			if (!userHasGivenConsent($loggedInUser, $consentForm)) { header("Location: ".  $consentForm . "?assignTask=".$_POST['task']); die(); }
 			$assignments = userGetAssignments($loggedInUser, $tid);
 			if (count($assignments) == 0) {
+			    if ($task['task_Type'] == 'Subtask') {
+				$assignments = userAssignSubtask($loggedInUser, $tid);
+			    } else {
 				$assignments = userAssignQueries($loggedInUser, $tid);
+			    }
 			}
 			header("Location: assignment.list.php"); die();
 		}
 		else {
-			$task = getTask($tid);
 		?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

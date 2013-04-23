@@ -11,10 +11,10 @@
 	
 	//Database Information
 	$dbtype = "mysql"; 
-	$db_host = "nema.lis.uiuc.edu";
-	$db_user = "mirexsubs";
-	$db_pass = "ihatemirex";
-	$db_name = "mirexsubs";
+	$db_host = "localhost";
+	$db_user = "root";
+	$db_pass = "";
+	$db_name = "mirexsubs_genre";
 	$db_port = "";
 	$db_table_prefix = "mirex_";
 
@@ -22,7 +22,7 @@
 	
 	//Generic website variables
 	$websiteName = "MIREX";
-	$websiteUrl = "http://music-ir.org/mirex/e6k/"; //including trailing slash
+	$websiteUrl = "http://localhost/~cwillis/e6k/"; //including trailing slash
 
 	//Do you wish UserCake to send out emails for confirmation of registration?
 	//We recommend this be set to true to prevent spam bots.

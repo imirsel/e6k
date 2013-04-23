@@ -10,6 +10,8 @@
 	//Prevent the user visiting the logged in page if he/she is not logged in
 	if (!isUserLoggedIn()) { header("Location: login.php"); die(); }
 	if (!$loggedInUser->isGroupMember(2)) { die(); }
+
+
 	if (!empty($_POST)) 
 	{
 		if (isset($_POST['task_ID']))
@@ -24,14 +26,20 @@
 			
 			$data = explode("\n", $_POST['data']);
 			
-			adminLoadResults($loggedInUser, $task, $data, $append);
+	                $t = getTask($task);
+			if ($t['task_Type'] == 'Subtask') { 
+			   adminLoadInput($loggedInUser, $task, $data, $append);
+			} else { 
+			   adminLoadResults($loggedInUser, $task, $data, $append);
+			} 
 			header("Location: admin.results.load.php?loaded&task=" . $task); die();
 		}
 	}
-	
+
 	$tid = $_GET['task'];
 	$task = getTask($tid);
 	$dcount = adminIsTaskDefined($loggedInUser, $tid);
+	
 	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -68,7 +76,13 @@
 				<form action="admin.results.load.php" method="post">
 					<input type="hidden" name="task_ID" value="<?php echo $tid;?>"/>
 					<div style="margin-bottom:10px;">
-						<p>Paste CSV 4-Tuples: Submission ID,Query ID,Query Genre,Candidate ID (no headline)</p>
+
+			                        <?php echo $task['task_Type'] ?> 
+			                        <?php if ($task['task_Type'] == 'Subtask') { ?> 
+						   <p>Paste CSV values: Subtask ID, Name, Value </p>
+			                        <?php } else { ?>
+						   <p>Paste CSV 4-Tuples: Submission ID,Query ID,Query Genre,Candidate ID (no headline)</p>
+			                        <?php } ?>
 						<textarea name="data" style="width:375px;height:400px;"></textarea>
 					</div>
 					<div>
