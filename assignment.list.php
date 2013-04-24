@@ -37,7 +37,7 @@
             foreach ($tasks as $tid=>$task) {
                 ?>
                 <h3>Task: <?php echo stripslashes($task['task_Name']);?></h3>
-                <div style="margin-left: 15px; margin-bottom:10px;padding-bottom:15px">
+                <div style="margin-left: 15px; margin-bottom:15px;">
                 <?php
                   if ($task['task_Type'] == 'Subtask') {
                       $assignments = userGetSubtasks($loggedInUser, $tid); 
@@ -157,6 +157,7 @@
                 }
                 ?>
                 </div>
+                <div style="margin-left:15px"><small><a href="<?php echo $task['task_Consent_Form']?>?assignTask=<?php echo $task['task_ID']?>">Informed Consent </a></small></div>
                 <hr style="height: 1px; color: #cccccc; background-color: #cccccc">
                 <?php
             }

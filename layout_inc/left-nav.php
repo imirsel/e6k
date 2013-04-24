@@ -16,7 +16,6 @@
             	<li><a href="logout.php">Logout</a></li>
             	<li><a href="account.php">Account Info</a></li>
                 <li><a href="demo.php">Try E6K Demo</a></li>
-       			<li><a href="consent.php">Informed Consent</a></li>
        			<li><a href="assignment.list.php">My Assignments</a></li>
        			<li><a href="change-password.php">Change password</a></li>
                 <li><a href="update-email-address.php">Update email address</a></li>
