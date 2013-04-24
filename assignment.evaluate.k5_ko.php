@@ -68,10 +68,10 @@ function checkConsistency()
            var val2 = $("input[name='Q" + j + "']:checked").val();
 
            if (val1 && val2 && (val1 == val2)) {
-                 $('#check').text("Consistency check ok.");
+                 $('#check').text("일관된 답을 주셨습니다.");
                  return true;
            } else {
-              $('#check').text("Consistency check failed" );
+              $('#check').text("답이 일관되지 않습니다." );
            }
          }
       }
@@ -198,7 +198,7 @@ function checkComplete() {
 
 <div style="margin: 20px; text-align:center">
    <span id="check"></span><br>
-   <span id="count">0</span> out of <?php echo $numItems?> items complete<br><br>
+   <?php echo $numItems?>중 <span id="count">0</span>개가 완료되었습니다.<br><br>
    <input id="submitButton" type="submit" name="submit" value="Submit" disabled>
    </div>
 
