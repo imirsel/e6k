@@ -91,7 +91,7 @@
 								</div>
 								<div>
 									<label>Assignment Size</label>
-									<input type="text" name="task_Assignment_Size" value="<?php echo $task['task_Assignment_Size'];?>" size="3"/> queries per grader.
+									<input type="text" name="task_Assignment_Size" value="<?php echo $task['task_Assignment_Size'];?>" size="3"/>
 								</div>
 								<div>
 									<label>MP3 Base URL</label>
@@ -149,7 +149,7 @@
 				</div>
 				<div>
 					<label>Assignment Size</label>
-					<input type="text" name="task_Assignment_Size" value="3" size="3"/> queries per grader.
+					<input type="text" name="task_Assignment_Size" value="3" size="3"/>
 				</div>
 				<div>
 					<label>MP3 Base URL</label>
