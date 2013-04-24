@@ -130,10 +130,25 @@ function getNextSubTask($user, $tid)
 	global $db,$db_table_prefix; 
 	$tasks = array();
 
+        $task = getTask($tid);
+	$lim = $task['task_Assignment_Size'];
+
 	$sql = "SELECT min(input_Sub_Task) as next from ".$db_table_prefix."E6K_Subtask 
-                WHERE input_Task = '".$db->sql_escape($tid)."' AND input_Sub_Task NOT IN (
-	        SELECT assign_Sub_Task from ".$db_table_prefix."E6K_Subtask_Assignments
-                WHERE assign_Grader = '".$db->sql_escape($user->clean_username)."' AND assign_Task = '".$db->sql_escape($tid)."')"; 
+                WHERE input_Task = '".$db->sql_escape($tid)."' 
+                AND input_Sub_Task NOT IN (
+	           SELECT assign_Sub_Task  
+                   FROM ".$db_table_prefix."E6K_Subtask_Assignments
+                   WHERE assign_Grader = '".$db->sql_escape($user->clean_username)."' 
+                   AND assign_Task = '".$db->sql_escape($tid)."'
+                )
+                AND input_Sub_Task NOT IN (
+	           SELECT assign_Sub_Task FROM 
+	           ( SELECT assign_Sub_Task, count(*) 
+                     FROM ".$db_table_prefix."E6K_Subtask_Assignments
+                     WHERE assign_Task = '".$db->sql_escape($tid)."'
+                     GROUP BY 1 HAVING COUNT(*) = ".$lim."
+                   ) as a
+               )";
                 
 	$result = $db->sql_query($sql);
 	$row =  $db->sql_fetchrow($result);
@@ -158,26 +173,33 @@ function countAvailableAssignments($task)
 	return $row['num'];
 }
 
-function countAvailableSubtasks($task,$user) 
+function countAvailableSubtasks($tid,$user) 
 {
 	global $db,$db_table_prefix; 
 
-	$sql = "SELECT 
-				count(distinct input_Sub_Task) as num
-			FROM 
-				".$db_table_prefix."E6K_Subtask
-			WHERE
-				input_Task = ".$db->sql_escape($task)."
-			AND
-				input_Sub_Task NOT IN (
-                                  select assign_Sub_Task 
-                                  from ".$db_table_prefix."E6K_Subtask_Assignments 
-                                  where assign_Grader = '".$db->sql_escape($user->clean_username)."' and assign_Task = '".$db->sql_escape($task)."')";
+	$task = getTask($tid);
+	$lim = $task['task_Assignment_Size'];
+
+	$sql = "SELECT count(distinct input_Sub_Task) as num
+		FROM ".$db_table_prefix."E6K_Subtask
+		WHERE input_Task = ".$db->sql_escape($tid)."
+		AND  input_Sub_Task NOT IN (
+                   SELECT assign_Sub_Task 
+                   FROM ".$db_table_prefix."E6K_Subtask_Assignments 
+                   WHERE assign_Grader = '".$db->sql_escape($user->clean_username)."' 
+                   AND assign_Task = '".$db->sql_escape($tid)."'
+                )
+                AND input_Sub_Task NOT IN (
+                   SELECT assign_Sub_Task FROM 
+                   ( SELECT assign_Sub_Task, count(*) 
+                     FROM ".$db_table_prefix."E6K_Subtask_Assignments
+                     WHERE assign_Task = '".$db->sql_escape($tid)."'
+                     GROUP BY 1 HAVING COUNT(*) = ".$lim."
+                   ) as a
+               )";
 
 	$result = $db->sql_query($sql);
 	$row = $db->sql_fetchrow($result);
-error_log($sql);
-error_log($row['num']);
 	return $row['num'];
 }
 
@@ -281,7 +303,12 @@ function userGetSubtaskItems($user, $task, $subTask)
 	{
 		$sql = "SELECT input_Name, input_Value, result_Value
 			FROM   ".$db_table_prefix."E6K_Subtask LEFT OUTER JOIN ".$db_table_prefix."E6K_Subtask_Results 
-                        ON (input_Task = result_Task AND input_Sub_Task = result_Sub_Task and input_Name = result_Name)
+                        ON (
+                           input_Task = result_Task 
+                           AND input_Sub_Task = result_Sub_Task 
+                           AND input_Name = result_Name 
+                           AND result_Grader = '".$db->sql_escape($user->clean_username)."'
+                        )
 			WHERE   input_Task = '".$db->sql_escape($task)."'
 			AND     input_Sub_Task = '".$db->sql_escape($subTask)."'
 			";
@@ -365,6 +392,7 @@ function userAssignQueries($user, $tid)
 	}
 }
 
+// Each subtask must be completed by 3 users.
 function userAssignSubtask($user, $tid)
 {
 	global $db,$db_table_prefix; 
@@ -373,7 +401,6 @@ function userAssignSubtask($user, $tid)
 	{
                 $subTask = getNextSubTask($user, $tid);
 		$task = getTask($tid);
-		$lim = $task['task_Assignment_Size'];
 		
 		$sql = "INSERT INTO  ".$db_table_prefix."E6K_Subtask_Assignments
 				SET
@@ -449,7 +476,6 @@ function userSetSubTaskItemValue($user, $task, $subTask, $itemName, $itemValue)
 					result_Value = '".$db->sql_escape($itemValue)."'
 				";
 		$db->sql_query($sql);
-error_log($sql);
 	}
 }
 
@@ -727,7 +753,6 @@ function adminLoadInput($user, $task, $data, $append)
 			}
 		}
 
-		error_log ($sql .join(",", $clauses));
 		$db->sql_query($sql . join(",", $clauses));
 	}
 }
