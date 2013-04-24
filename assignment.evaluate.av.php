@@ -237,7 +237,6 @@ jQuery(document).ready(function() {
         
         <div id="main">
           <h1><?php echo stripslashes($task['task_Name']);?></h1>
-          <h2>Sub Task <?php echo enhash($subTask);?></h2>
           <?php
           if ($task['task_Instructions'] != '') {
           ?>

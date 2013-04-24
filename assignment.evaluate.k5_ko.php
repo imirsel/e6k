@@ -133,16 +133,21 @@ function checkComplete() {
   <input type="hidden" name="task" value="<?php echo $tid ?>">
   <input type="hidden" name="subTask" value="<?php echo $subTask ?>">
 
-<h3>Identify the music mood.</h3>
+<h3>Identify the music mood 음악 감성 설문</h3>
 <div class="highlight-box">
-<p><b>Instructions:&nbsp;</b></p>
+<p><b>과제 설명: </b></p>
 <ul class="overview-list">
-	<li class="overview-list-item">Your task is to listen to the following <?php echo $numItems ?>  music clips and select what you think is the most appropriate &ldquo;mood cluster&rdquo; for each song from the given options.</li> 
-	<li class="overview-list-item">Please listen to each song for 20~30 seconds. You can listen to different parts of the song to pick the &ldquo;mood cluster&rdquo;.</li> 
-	<li class="overview-list-item">Please select the &ldquo;mood cluster&rdquo; that best describes the mood that the song expresses.</li> 
-	<li class="overview-list-item">Please answer the questions carefully. Inconsistent or incomplete answers cannot be accepted.</li> 
+    <li class="overview-list-item">본 과제는 22곡의 노래를 듣고, 보기에 주어지는 &quot;음악 클러스터&quot; 중 각 음악에 가장 적합한 &quot;음악 클러스터&quot;를 고르는 것입니다.</li>
+    <li class="overview-list-item">30초 길이의 음악을 끝까지 충분히 들어주십시오.</li>
+    <li class="overview-list-item">보기에 주어지는 5가지 &quot;음악 클러스터&quot; 중 음악이 표현하는 감성에 해당되는 &quot;음악 클러스>터&quot;를 선택하십시오.</li>
+    <li class="overview-list-item">답에 일관성이 없거나, 일부 질문에 답을 하지 않은 경우 수행한 과제가 거부(reject)될 수 있음을 유념하시
+기 바랍니다.</li>
+    <li class="overview-list-item">답의 일관성을 검사하기 위하여, 동일한 곡이 여러번 등장할 것입니다. 동일한 곡에 대해 다른 답을 한 경우
+ 수행한 과제가 거부(reject)될 수 있음을 유념하시기 바랍니다.</li>
+    <li class="overview-list-item">본 과제는 한국인만을 대상으로 합니다. 음악을 듣고 적합한 감성을 고르는 과제를 수행하시기에 앞서 한국>어로 녹음된 퀴즈를 듣고 적합한 답을 고르는 퀴즈를 수행해주시기 바랍니다. 퀴즈의 정답을 맞추신 경우에만 수행한 과제가 승인될 것입니다.</li>
 </ul>
 </div>
+
 <table cellspacing="4" cellpadding="0" border="0">
     <tbody>
 <?php
@@ -152,7 +157,7 @@ function checkComplete() {
     $itemUrl = 'http://www.music-ir.org/mirex/e6k_genre/audio/genre_30s/'. $item['input_Value'];
 ?>
         <tr>
-            <td>Question <?php echo $i ?></td>
+            <td>질문 <?php echo $i ?></td>
             <td>
             <p><embed src="http://www.google.com/reader/ui/3523697345-audio-player.swf" flashvars="audioUrl=<?php echo $itemUrl?>" width="400" height="27" quality="best" type="application/x-shockwave-flash" /></p>
             <input type="hidden" id="track-id-<?php echo $i ?>" value="<?php echo $item['input_Value'] ?>">
@@ -161,24 +166,25 @@ function checkComplete() {
         </tr>
         <tr>
             <td valign="center"><input type="radio" name="Q<?php echo $i ?>" value="Choice1" /></td>
-            <td><span class="answertext">Cluster 1: passionate, rousing, confident,boisterous, rowdy</span></td>
+            <td><span class="answertext">클러스터 1: 열정적인, 흥분시키는, 자신감 있는, 활기가 넘치는, 소란스러운</span></td>
         </tr>
         <tr>
             <td valign="center"><input type="radio" name="Q<?php echo $i ?>" value="Choice2" /></td>
-            <td><span class="answertext">Cluster 2: rollicking, cheerful, fun, sweet, amiable/good natured</span></td>
+            <td><span class="answertext">클러스터 2: 흥겨운, 쾌활한, 즐거운, 달콤한, 상냥한/온화한</span></td>
         </tr>
         <tr>
             <td valign="center"><input type="radio" name="Q<?php echo $i ?>" value="Choice3" /></td>
-            <td><span class="answertext">Cluster 3: literate, poignant, wistful, bittersweet, autumnal, brooding</span></td>
+            <td><span class="answertext">클러스터 3: 세련된, 비통한, 아쉬운, 달콤쌉쌀한, 가을느낌의, 음울한</span></td>
         </tr>
         <tr>
             <td valign="center"><input type="radio" name="Q<?php echo $i ?>" value="Choice4" /></td>
-            <td><span class="answertext">Cluster 4: humorous, silly, campy, quirky, whimsical, witty, wry</span></td>
+            <td><span class="answertext">클러스터 4: 익살스러운, 우스꽝스러운, 과장된, 별난, 기발한, 재치있는, 비꼬는</span></td>
         </tr>
         <tr>
             <td valign="center"><input type="radio" name="Q<?php echo $i ?>" value="Choice5" /></td>
-            <td><span class="answertext">Cluster 5: aggressive, fiery,tense/anxious, intense, volatile,visceral</span></td>
+            <td><span class="answertext">클러스터 5: 공격적인, 불같은, 긴장된/불안한, 강렬한, 변덕스러운, 본능적인</span></td>
         </tr>
+
 <?php } ?>
     </tbody>
 </table>
