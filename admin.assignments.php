@@ -37,7 +37,11 @@
 				?>
 				<h3><?php echo $task['task_Name'];?> Assignments</h3>
 				<?php
-	            $assignments = adminGetAllAssignments($loggedInUser, $tid); 
+	  	    if ($task['task_Type'] == 'Subtask') {
+	            	$assignments = adminGetAllSubtaskAssignments($loggedInUser, $tid); 
+	            } else { 
+	                $assignments = adminGetAllAssignments($loggedInUser, $tid); 
+	            }
 	            if (count($assignments) == 0)
 	            {
 	            	?>
@@ -56,13 +60,20 @@
 					<?php
 					foreach ($assignments as $query=>$grader) 
 					{
-						$status = userGetAssignmentStatus($loggedInUser, $tid, $query);
+	  	     				if ($task['task_Type'] == 'Subtask') {
+						   $status = userGetSubtaskStatus($loggedInUser, $tid, $query);
+						   $view_url = $task['task_Evaluation_Form'];
+	  	     				} else { 
+						   $status = userGetAssignmentStatus($loggedInUser, $tid, $query);
+						   $view_url = "admin.assignment.view.php" . "?task=" . $tid . "&query=" . $query";
+	  	     				}
+	  	     				
 						$sc = $status['completed'];
 						$st = $status['total'];
 						?>
 						<div class="sub">
 							<div class="sub-shortcode">
-								<a href="admin.assignment.view.php?task=<?php echo $tid;?>&query=<?php echo $query?>"><?php echo $query, " (", enhash($query), ")";?></a>
+								<a href="<?php echo $view_url?>"><?php echo $query, " (", enhash($query), ")";?></a>
 								<div>
 									<div style="float:left;height:10px;width:<?php echo floor(75 * $sc/$st);?>px;background:#0c0;border-width:1px 0px 1px 1px;border-color:gray;border-style:solid;"></div><div style="float:left;height:10px;width:<?php echo ceil(75 * (($st-$sc)/$st));?>px;background:#c00;border-width:1px 1px 1px 0px;border-color:gray;border-style:solid;"></div>
 								</div>
@@ -75,7 +86,7 @@
 								else {
 									echo "Assigned to " . $grader;
 									?>
-									(<a href="admin.assignment.recall.php?t=<?php echo $tid;?>&q=<?php echo $query;?>">Recall Query</a>)
+									(<a href="admin.assignment.recall.php?t=<?php echo $tid;?>&q=<?php echo $query;?>&grader=<?php echo $grader?>">Recall Query</a>)
 									<?php									
 								}
 								?> 

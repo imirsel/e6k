@@ -18,8 +18,14 @@
 		(isset($_POST['query']))) {
 		$tid = $_POST['task'];
 		$query = $_POST['query'];
+		$grader = $_POST['grader'];
+		$task = getTask($tid); 
 
-		adminRecallQuery($loggedInUser, $tid, $query);
+		if ($task['task_Type'] == "Subtask" ) {
+		   adminRecallSubtask($loggedInUser, $tid, $query, $grader);
+		} else { 
+		   adminRecallQuery($loggedInUser, $tid, $query);
+		}
 		header("Location: admin.assignments.php");
 	}
 	
@@ -28,6 +34,7 @@
 	}
 	$tid = $_GET['t'];
 	$query = $_GET['q'];
+	$grader = $_GET['grader'];
 	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -55,6 +62,7 @@
 			<form action="admin.assignment.recall.php" method="post">
 				<input type="hidden" name="task" value="<?php echo $tid;?>"/>
 				<input type="hidden" name="query" value="<?php echo $query;?>"/>
+				<input type="hidden" name="grader" value="<?php echo $grader;?>"/>
 				<input type="submit" name="confirm" value="Yes" />
 				<input type="button" value="No" onclick="window.location.href='admin.assignments.php'"/>
 			</form>

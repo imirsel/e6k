@@ -758,6 +758,28 @@ function adminLoadInput($user, $task, $data, $append)
 }
 
 
+function adminRecallSubtask($user, $task, $subtask, $grader) 
+{
+	global $db,$db_table_prefix;
+
+	//check if user is mirex organizer
+	if (($user != NULL) && ($user->isGroupMember(2)))
+	{
+		$sql = "DELETE FROM  ".$db_table_prefix."E6K_Subtask_Assignments
+			WHERE  assign_Task = '".$db->sql_escape($task)."' 
+			AND  assign_Grader = '".$db->sql_escape($grader)."' 
+			AND assign_Sub_Task = '".$db->sql_escape($subtask)."'";
+
+		$db->sql_query($sql);
+
+		$sql = "DELETE FROM  ".$db_table_prefix."E6K_Subtask_Results
+			WHERE  results_Task = '".$db->sql_escape($task)."' 
+			AND  results_Grader = '".$db->sql_escape($grader)."' 
+			AND results_Sub_Task = '".$db->sql_escape($subtask)."'";
+
+		$db->sql_query($sql);
+	}
+}
 
 
 function adminRecallQuery($user, $task, $query) 
@@ -792,6 +814,33 @@ function adminRecallQuery($user, $task, $query)
 		$db->sql_query($sql);
 	}
 }
+
+function adminGetAllSubtaskAssignments($user, $task) 
+{
+	global $db,$db_table_prefix;
+
+	//check if user is mirex organizer
+	if (($user != NULL) && ($user->isGroupMember(2)))
+	{
+		$sql = "SELECT 
+					*,
+					assign_Grader IS NULL AS sort
+				FROM
+					".$db_table_prefix."E6K_Subtask_Assignments
+				WHERE
+					assign_Task = '".$db->sql_escape($task)."'
+				ORDER BY
+					sort ASC,
+					assign_Sub_Task ASC";
+
+		$result = $db->sql_query($sql);
+		while (($row = $db->sql_fetchrow($result)) != null) {
+			$assignments[$row['assign_Sub_Task']] = $row['assign_Grader'];
+		}
+	}
+	return $assignments;
+}
+
 
 function adminGetAllAssignments($user, $task) 
 {
