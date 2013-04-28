@@ -67,18 +67,12 @@
 		{
 			?>
 			<div id="success">
-				<p>You have consented to participate in this study. You gave your informed consent on
-				<strong><?php echo $consent['consent_Date'];?></strong> from a computer connected to the
-				internet from IP address <em><?php echo $consent['consent_IP'];?></em> using a browser
-				reporting to be <em><?php echo $consent['consent_UserAgent'];?></em>.</p>
-
-				<p>If this
-				information seems incorrect or suspicious to you, please contact the IMIRSEL
-				team at <a href="mailto:mirex@imirsel.org">mirex@imirsel.org</a>.</p>
-
-				<p>Now that you have consented to participating in this study you can start rating
-				queries. <strong>Go to <a href="assignment.list.php">My Assignments</a> to start grading.</a></strong>
-				</p>
+				<p>이미 본 태깅 작업 참가에 동의하셨습니다. 동의와 관련한 정보는 다음과 같습니다. <br/><br/> 
+				<b>날짜:</b> <strong><?php echo $consent['consent_Date'];?></strong><br/>
+				<b>IP 주소:</b> <em><?php echo $consent['consent_IP'];?></em><br/>
+				<b>브라우저 상세정보:</b> <em><?php echo $consent['consent_UserAgent'];?></em><br/>
+				<br/>
+				이미 동의하셨기 때문에 바로 태깅 작업에 참여하실 수 있습니다. <a href="assignment.list.php">My Assignments</a>를 클릭하세요.</p>
 			</div>
 			<?php
 		}
@@ -93,7 +87,7 @@
 <p>본 연구에 대해 질문 사항이 있으시면 연구 진행자에게 연락을 주십시오.</p>
 <p>본 연구에 참여자로서의 권리에 대해 질문이 있거나 불만사항이 있다면, 일리노이 주립대의 기관 감사 위원회에 전화나 메일로 연락을 주시기 바랍니다. 메일 주소는 irb@illinois.edu이고 전화번호는  217-333-2670입니다. 만약 당신이 연구 참여자임을 입증할 수 있다면 수신자 부담 전화를 하실 수 있습니다. </p>
 <p><b>당신은 반드시 18세 이상의 한국인이어야 합니다.</b>
-<br/>본인은 18세 이상의 한국인이고 본 동의서를 출력할 수 있고, 전문을 다 읽고 이해하였습니다. 아래의 "동의합니다"를 선택함으로써, 이 설문에 답하여 본 연구에 참여하는 것을 동의합니다.</p>
+<br/>본인은 18세 이상의 한국인이고 본 동의서를 출력할 수 있고, 전문을 다 읽고 이해하였습니다. 아래의 Consent 버튼을 클릭함으로써, 이 설문에 답하여 본 연구에 참여하는 것을 동의합니다.</p>
 
 			<form action="consent.keti_ko.php" method="post">
 			<?php
@@ -108,14 +102,6 @@
 					}
 				}
 			?>
-				<p>
-
-              <input type="checkbox" value="Y" name="consent_Sign" <?php if ($status == "Y") { echo "checked"; } ?>/><b>I agree</b>
-
-        
-				<p>By checking this box, I consent that I have read and understand
-				the above statements regarding my voluntary participation in this survey.
-				</p>
 				<input type="submit" value="Consent"/>
 			</form>
 		</div>
