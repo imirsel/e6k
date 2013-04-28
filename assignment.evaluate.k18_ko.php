@@ -159,7 +159,7 @@ function checkComplete() {
     $itemUrl = 'http://www.music-ir.org/mirex/e6k_genre/audio/genre_30s/'. $item['input_Value'];
 ?>
         <tr>
-            <td>질문 <?php echo $i ?></td>
+            <td><?php echo $i ?>번 </td>
             <td>
             <p><embed src="http://www.google.com/reader/ui/3523697345-audio-player.swf" flashvars="audioUrl=<?php echo $itemUrl?>" width="400" height="27" quality="best" type="application/x-shockwave-flash" /></p>
             <input type="hidden" id="track-id-<?php echo $i ?>" value="<?php echo $item['input_Value'] ?>">
@@ -253,7 +253,7 @@ function checkComplete() {
 
 <div style="margin: 20px; text-align:center">
    <span id="check"></span><br>
-   <span id="count">0</span> out of <?php echo $numItems?> items complete<br><br>
+   <?php echo $numItems?>곡 중 <span id="count">0</span>곡이 완료되었습니다.<br><br>
    <input id="submitButton" type="submit" name="submit" value="Submit" disabled>
    </div>
 
