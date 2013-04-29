@@ -134,7 +134,6 @@ function checkComplete() {
   <input type="hidden" name="task" value="<?php echo $tid ?>">
   <input type="hidden" name="subTask" value="<?php echo $subTask ?>">
 
-<h3>Identify the music mood 음악 감성 설문</h3>
 <div class="highlight-box">
 <p><b>과제 설명: </b></p>
 <ul class="overview-list">
@@ -142,11 +141,8 @@ function checkComplete() {
 악 태그 그룹&quot;(들)을 고르는 것입니다.</li>
     <li class="overview-list-item">30초 길이의 음악을 끝까지 충분히 들어주십시오.</li>
     <li class="overview-list-item">보기에 주어지는 18가지 &quot;음악 태그 그룹&quot; 중 음악이 표현하는 감성에 해당되는 &quot;음악 태그 그룹&quot;을 한개 이상 선택하십시오.</li>
-    <li class="overview-list-item">답에 일관성이 없거나, 일부 질문에 답을 하지 않은 경우 수행한 과제가 거부(reject)될 수 있음을 유념하시
-기 바랍니다.</li>
-    <li class="overview-list-item">답의 일관성을 검사하기 위하여, 동일한 곡이 여러번 등장할 것입니다. 동일한 곡에 대해 다른 답을 한 경우
- 수행한 과제가 거부(reject)될 수 있음을 유념하시기 바랍니다.</li>
-    <li class="overview-list-item">본 과제는 한국인만을 대상으로 합니다. 음악을 듣고 적합한 감성을 고르는 과제를 수행하시기에 앞서 한국>어로 녹음된 퀴즈를 듣고 적합한 답을 고르는 퀴즈를 수행해주시기 바랍니다. 퀴즈의 정답을 맞추신 경우에만 수행한 과제가 승인될 것입니다.</li>
+    <li class="overview-list-item">답의 일관성을 검사하기 위하여, 동일한 곡이 여러번 등장할 것입니다. 동일한 곡에 대해 동일한 답을 한 경우
+ submit하실 수 있습니다. </li>
 </ul>
 </div>
 
