@@ -286,7 +286,7 @@ jQuery(document).ready(function() {
         </div>
       </td>
       <td >
-        <img src="av/av_guide.jpg" width="250" style="margin-left: 40px">
+        <img src="av/av_guide_ko.jpg" width="250" style="margin-left: 40px">
       </td>
     </tr>
 <?php } ?>
