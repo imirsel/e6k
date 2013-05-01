@@ -31,7 +31,7 @@
         for ($i=0; $i<$numItems; $i++) {
            $values = ""; 
            foreach ($_POST['Q'.($i+1)] as $value) {
-              $values .= $value . ",";
+              $values .= $value . "|";
            } 
            $item = $items[$i];
            userSetSubTaskItemValue($loggedInUser, $tid, $subTask, $item['input_Name'], $values);
