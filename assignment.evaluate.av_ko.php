@@ -75,10 +75,10 @@ function checkConsistency()
            if (ax != "" && ay != "" && bx != "" && by != "") {
                var dist = Math.sqrt(Math.pow((ax - bx),2) + Math.pow((ay-by),2));
                if (dist <= 2.0) {
-                  $('#check').text("Consistency check ok.");
+                  $('#check').text("일관된 답을 주셨습니다.");
                   return true;
                } else {
-                  $('#check').text("Consistency check failed" );
+                  $('#check').text("답이 일관되지 않습니다." );
                }
            }
          }
