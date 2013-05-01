@@ -69,10 +69,10 @@ function checkConsistency()
            var val2 = $("input[name='Q" + j + "[]']:checked").val();
 
            if (val1 && val2 && (val1 == val2)) {
-                 $('#check').text("Consistency check ok.");
+                 $('#check').text("일관된 답을 주셨습니다.");
                  return true;
            } else {
-              $('#check').text("Consistency check failed" );
+              $('#check').text("답이 일관되지 않습니다." );
            }
          }
       }
